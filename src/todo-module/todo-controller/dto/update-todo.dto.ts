@@ -1,5 +1,5 @@
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { Status } from '../Status';
+import { Status } from '../../Status';
 
 export class UpdateTodoDto {
   @IsOptional()

@@ -1,9 +1,9 @@
 import { Body, Controller, Get, NotFoundException, Post } from '@nestjs/common';
 import { Delete, Param, Put, Query } from '@nestjs/common/decorators';
 import { TodoModel } from '../todo-model';
-import { Status } from './Status';
+
 import { TodoDto } from './dto/todo.dto';
-import { UpdateTodoDto } from "./dto/update-todo.dto";
+import { UpdateTodoDto } from './dto/update-todo.dto';
 @Controller('todo-controller')
 export class TodoControllerController {
   private todos: TodoModel[] = [];
@@ -31,18 +31,16 @@ export class TodoControllerController {
     return 'deleted';
   }
   @Put('modify/:id')
-  modifybyId(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto): TodoModel {
+  modifybyId(
+    @Param('id') id: string,
+    @Body() updateTodoDto: UpdateTodoDto,
+  ): TodoModel {
     const todo = this.findtodo(id);
-    if (updateTodoDto.name) {
-        todo.name = updateTodoDto.name;
-      }
-      if (updateTodoDto.description) {
-        todo.description = updateTodoDto.description;
-      }
-      if (updateTodoDto.status) {
-        todo.statut = updateTodoDto.status;
-      }
-      return todo;
+    if (todo) {
+      Object.assign(updateTodoDto, todo);
+      this.todos.push(todo);
+    }
+    return todo;
   }
 
   findtodo(id: string): TodoModel {
