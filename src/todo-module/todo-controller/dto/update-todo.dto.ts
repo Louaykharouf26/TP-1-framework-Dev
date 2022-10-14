@@ -1,18 +1,10 @@
-import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
+import { TodoDto } from './todo.dto';
 import { Status } from '../../Status';
+import { IsEnum, IsOptional } from 'class-validator';
 
-export class UpdateTodoDto {
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  description: string;
-
-  @IsOptional()
+export class UpdateTodoDto extends PartialType(TodoDto) {
   @IsEnum(Status)
-  status: Status;
+  @IsOptional()
+  statut: Status;
 }

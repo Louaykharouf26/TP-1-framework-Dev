@@ -1,7 +1,7 @@
-import { Body, Controller, Get, NotFoundException, Post } from '@nestjs/common';
-import { Delete, Param, Put, Query } from '@nestjs/common/decorators';
+import { Body, Controller, Get, NotFoundException, Post, ValidationPipe } from '@nestjs/common';
+import { Delete, Param, Put, Query, UsePipes } from '@nestjs/common/decorators';
 import { TodoModel } from '../todo-model';
-
+import {createDTO} from './dto/create.dto';
 import { TodoDto } from './dto/todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 @Controller('todo-controller')
@@ -13,10 +13,11 @@ export class TodoControllerController {
     return this.todos;
   }
   @Post('add')
-  setTodos(@Body() todoDto: TodoDto) {
+  @UsePipes(ValidationPipe)
+  setTodos(@Body() createDTO: createDTO) {
     const todo = new TodoModel();
-    todo.name = todoDto.name;
-    todo.description = todoDto.description;
+    todo.name = createDTO.name;
+    todo.description = createDTO.description;
     this.todos.push(todo);
     return todo;
   }
@@ -31,17 +32,17 @@ export class TodoControllerController {
     return 'deleted';
   }
   @Put('modify/:id')
-  modifybyId(
-    @Param('id') id: string,
-    @Body() updateTodoDto: UpdateTodoDto,
-  ): TodoModel {
-    const todo = this.findtodo(id);
-    if (todo) {
-      Object.assign(updateTodoDto, todo);
+  @UsePipes(ValidationPipe)
+  modifybyId(id: string, body: UpdateTodoDto): TodoModel {
+    const todo = this.findtodo(id)
+    if (body.name) {todo.name = body.name;
       this.todos.push(todo);
     }
+    if (todo.description) todo.description = body.description;
+    if (todo.statut) todo.statut = body.statut;
+    
     return todo;
-  }
+}
 
   findtodo(id: string): TodoModel {
     const todo1 = this.todos.find((todo) => todo.id == id);
