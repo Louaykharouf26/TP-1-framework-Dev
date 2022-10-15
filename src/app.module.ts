@@ -23,6 +23,9 @@ import { TodoServiceService } from './todo-service/todo-service.service';
       synchronize: true,
       logging: true,
     }),
+    TypeOrmModule.forFeature(
+      [TodoEntity]
+      )
   ],
   controllers: [AppController],
   providers: [AppService, TodoServiceService],
