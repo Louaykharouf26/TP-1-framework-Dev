@@ -6,7 +6,14 @@ import {
   Post,
   ValidationPipe,
 } from '@nestjs/common';
-import { Delete, Param, Put, Query, UsePipes, Version } from '@nestjs/common/decorators';
+import {
+  Delete,
+  Param,
+  Put,
+  Query,
+  UsePipes,
+  Version,
+} from '@nestjs/common/decorators';
 import { TodoModel } from '../todo-model';
 import { createDTO } from './dto/create.dto';
 import { TodoDto } from './dto/todo.dto';
@@ -25,7 +32,6 @@ export class TodoControllerController {
     return this.todoService.getTodos();
   }
   @Post('add')
-
   @UsePipes(ValidationPipe)
   setTodos(@Body() createDTO: createDTO) {
     return this.todoService.setTodos(createDTO);
@@ -44,8 +50,7 @@ export class TodoControllerController {
     @Param('id') id: string,
     @Body() updateTodoDto: UpdateTodoDto,
   ): TodoModel {
-    
-    return this.todoService.modifybyId(id,updateTodoDto);
+    return this.todoService.modifybyId(id, updateTodoDto);
   }
 
   findtodo(id: string): TodoModel {
@@ -54,34 +59,53 @@ export class TodoControllerController {
     return todo1;
   }
   @Post('addBD')
-  
-  async addTodoBD(@Body() todo:createDTO): Promise<TodoEntity>
-  {return this.todoService.addTodoBD(todo);}
+  async addTodoBD(@Body() todo: createDTO): Promise<TodoEntity> {
+    return this.todoService.addTodoBD(todo);
+  }
 
   @Put('updateBD/:id')
   async updateTodoBD(
     @Body() todo: UpdateTodoDto,
-    @Param('id', ParseIntPipe) id:number,
+    @Param('id', ParseIntPipe) id: number,
   ): Promise<TodoEntity> {
     {
       return this.todoService.updateTodoBD(id, todo);
     }
-}
-@Delete('DeletefromBD/:id')
-async softRemovefromBD(
+  }
+  @Delete('DeletefromBD/:id')
+  async softRemovefromBD(
     @Param('id', ParseIntPipe) id: number,
-): Promise<TodoEntity> {
-  {
-    return this.todoService.softRemovefromBD(id);
+  ): Promise<TodoEntity> {
+    {
+      return this.todoService.softRemovefromBD(id);
+    }
+  }
+  @Get('recover/:id')
+  async RecoverTodo(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<TodoEntity> {
+    {
+      return this.todoService.RecoverTodo(id);
+    }
+  }
+  @Get('numbers')
+  async NumberByStatut() {
+    {
+      return this.todoService.countByStatus();
+    }
+  }
+  @Get('allTodos')
+  async AllTodos() {
+    {
+      return this.todoService.getTodosAll();
+    }
+  }
+  @Get('TodowithId/:id')
+  async findtodowithId(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<TodoEntity[]> {
+    {
+      return await this.todoService.getTodowithId(id);
+    }
   }
 }
-@Get('recover/:id')
-async RecoverTodo(
-    @Param('id', ParseIntPipe) id: number,
-): Promise<TodoEntity> {
-  {
-    return this.todoService.RecoverTodo(id);
-  }
-}
-}
-

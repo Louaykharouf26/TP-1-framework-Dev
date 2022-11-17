@@ -2,9 +2,10 @@ import { Body, Injectable, NotFoundException, Param } from '@nestjs/common';
 import { TodoModel } from 'src/todo-module/todo-model';
 import { createDTO } from 'src/todo-module/todo-controller/dto/create.dto';
 import { UpdateTodoDto } from 'src/todo-module/todo-controller/dto/update-todo.dto';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { TodoEntity } from 'src/entity/TodoEntity.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Status } from 'src/todo-module/Status';
 
 @Injectable()
 export class TodoServiceService {
@@ -70,7 +71,55 @@ export class TodoServiceService {
   }
   async RecoverTodo(id: number): Promise<TodoEntity> {
     const entitytorestore = await this.sectionRepository.findOneById(id);
-   
+
     return await this.sectionRepository.recover(entitytorestore);
+  }
+  async countByStatus() {
+    return await ('actif :' +
+      (await this.sectionRepository.countBy({ statut: Status.actif })) +
+      ' waiting : ' +
+      (await this.sectionRepository.countBy({ statut: Status.waiting })) +
+      ' done : ' +
+      (await this.sectionRepository.countBy({ statut: Status.done })));
+  }
+  async getTodosAll(): Promise<TodoEntity[]> {
+    return await this.sectionRepository.find();
+  }
+  async getTodoByStatusAndData(statusParam, data): Promise<TodoEntity[]> {
+    return await this.sectionRepository.find({
+      where: [
+        {
+          name: Like(`%${data}%`),
+        },
+        {
+          description: Like(`%${data}%`),
+          statut: statusParam,
+        },
+      ],
+    });
+  }
+  async getTodowithId(id: number): Promise<TodoEntity[]> {
+    return await this.sectionRepository.findBy({ id: id });
+  }
+  async getTodov3(statusParam, data): Promise<TodoEntity[]> {
+    return await this.sectionRepository.find({
+      where: [
+        {
+          statut: statusParam,
+        },
+        {
+          name: Like(`%${data}%`),
+        },
+        {
+          description: Like(`%${data}%`),
+        },
+      ],
+    });
+  }
+  async getTodosPaginated(param): Promise<TodoEntity[]> {
+    return await this.sectionRepository.find({
+      skip: (param.page - 1) * param.take,
+      take: param.take,
+    });
   }
 }

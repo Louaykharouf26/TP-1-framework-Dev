@@ -18,7 +18,7 @@ import { TodoServiceService } from './todo-service/todo-service.service';
       port: 3306,
       username: 'root',
       password: '',
-      database: 'tp',
+      database: 'tp1web',
       entities: [TodoEntity],
       synchronize: true,
       logging: true,
