@@ -18,8 +18,8 @@ import { TodoModel } from '../todo-model';
 import { createDTO } from './dto/create.dto';
 import { TodoDto } from './dto/todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
-import { TodoServiceService } from 'src/todo-service/todo-service.service';
-import { TodoEntity } from 'src/entity/TodoEntity.entity';
+import { TodoServiceService } from './../../todo-service/todo-service.service';
+import { TodoEntity } from './../../entity/TodoEntity.entity';
 import { version } from 'os';
 import { ParseIntPipe } from '@nestjs/common/pipes/parse-int.pipe';
 @Controller('todo-controller')

@@ -7,6 +7,9 @@ import { TodoModuleModule } from './todo-module/todo-module.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TodoEntity } from './entity/TodoEntity.entity';
 import { TodoServiceService } from './todo-service/todo-service.service';
+import { CvModule } from './cv/cv.module';
+import { SkillModule } from './skill/skill.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -18,16 +21,17 @@ import { TodoServiceService } from './todo-service/todo-service.service';
       port: 3306,
       username: 'root',
       password: '',
-      database: 'tp1web',
-      entities: [TodoEntity],
+      database: 'bdseed',
+      autoLoadEntities: true,
       synchronize: true,
       logging: true,
     }),
-    TypeOrmModule.forFeature(
-      [TodoEntity]
-      )
+
+    CvModule,
+    SkillModule,
+    UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService, TodoServiceService],
+  providers: [AppService],
 })
 export class AppModule {}

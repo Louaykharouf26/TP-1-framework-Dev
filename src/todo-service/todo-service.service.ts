@@ -1,11 +1,11 @@
 import { Body, Injectable, NotFoundException, Param } from '@nestjs/common';
-import { TodoModel } from 'src/todo-module/todo-model';
-import { createDTO } from 'src/todo-module/todo-controller/dto/create.dto';
-import { UpdateTodoDto } from 'src/todo-module/todo-controller/dto/update-todo.dto';
+import { TodoModel } from './../todo-module/todo-model';
+import { createDTO } from './../todo-module/todo-controller/dto/create.dto';
+import { UpdateTodoDto } from './../todo-module/todo-controller/dto/update-todo.dto';
 import { Like, Repository } from 'typeorm';
-import { TodoEntity } from 'src/entity/TodoEntity.entity';
+import { TodoEntity } from './../entity/TodoEntity.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Status } from 'src/todo-module/Status';
+import { Status } from './../todo-module/Status';
 
 @Injectable()
 export class TodoServiceService {
