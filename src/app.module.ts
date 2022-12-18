@@ -10,6 +10,7 @@ import { TodoServiceService } from './todo-service/todo-service.service';
 import { CvModule } from './cv/cv.module';
 import { SkillModule } from './skill/skill.module';
 import { UserModule } from './user/user.module';
+import { UserServiceService } from './user-service/user-service.service';
 
 @Module({
   imports: [
@@ -32,6 +33,6 @@ import { UserModule } from './user/user.module';
     UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, UserServiceService],
 })
 export class AppModule {}

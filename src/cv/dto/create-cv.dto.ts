@@ -19,7 +19,7 @@ export class CreateCvDto {
   @MinLength(3)
   @MaxLength(10)
   @IsNotEmpty()
-  Cin: string;
+  Cin: number;
   @MinLength(3)
   @MaxLength(10)
   @IsNotEmpty()

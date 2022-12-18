@@ -12,7 +12,7 @@ export class cv {
   @Column()
   Age: number;
   @Column()
-  Cin: string;
+  Cin: number;
   @Column()
   Job: string;
   @Column()
